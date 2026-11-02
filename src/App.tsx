@@ -14,11 +14,11 @@ type Item = {
 
 const roles: { key: RoleKey color: string }[] = [
   { key: "경영·기획", color: "#d8ff73" },
-  { key: "마케팅·홍보", color: "#a7c94e" },
-  { key: "매니지먼트", color: "#758d37" },
-  { key: "제작·개발", color: "#efffc6" },
-  { key: "디자인", color: "#536426" },
-  { key: "그 외 직무", color: "#343d20" },
+  { key: "마케팅·홍보", color: "#6ee7f2" },
+  { key: "매니지먼트", color: "#ff7eb6" },
+  { key: "제작·개발", color: "#a995ff" },
+  { key: "디자인", color: "#ffb55f" },
+  { key: "그 외 직무", color: "#7895ad" },
 ]
 
 const items: Item[] = [
