@@ -1,0 +1,10 @@
+{
+  "description": "Explore 2024 Korean digital creator media workforce data by industry and company size, comparing job roles and viewing each category’s workforce breakdown.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
