@@ -3,6 +3,7 @@ import { useMemo, useState } from "react"
 type Tab = "주요분야" | "종사자 규모"
 
 type RoleKey = "경영·기획" | "마케팅·홍보" | "매니지먼트" | "제작·개발" | "디자인" | "그 외 직무"
+type PaletteKey = "neon" | "ocean" | "sunset" | "citrus" | "berry" | "mono"
 
 type Item = {
   category: Tab
@@ -12,13 +13,57 @@ type Item = {
   roles: Record<RoleKey, number>
 }
 
-const roles: { key: RoleKey color: string }[] = [
-  { key: "경영·기획", color: "#d8ff73" },
-  { key: "마케팅·홍보", color: "#6ee7f2" },
-  { key: "매니지먼트", color: "#ff7eb6" },
-  { key: "제작·개발", color: "#a995ff" },
-  { key: "디자인", color: "#ffb55f" },
-  { key: "그 외 직무", color: "#7895ad" },
+const roleKeys: RoleKey[] = [
+  "경영·기획",
+  "마케팅·홍보",
+  "매니지먼트",
+  "제작·개발",
+  "디자인",
+  "그 외 직무",
+]
+
+const palettes: {
+  key: PaletteKey
+  label: string
+  description: string
+  colors: string[]
+}[] = [
+  {
+    key: "neon",
+    label: "네온 믹스",
+    description: "생동감 있는 고채도 조합",
+    colors: ["#d8ff73", "#6ee7f2", "#ff7eb6", "#a995ff", "#ffb55f", "#7895ad"],
+  },
+  {
+    key: "ocean",
+    label: "오션",
+    description: "차분한 블루·그린 조합",
+    colors: ["#5eead4", "#67e8f9", "#38bdf8", "#818cf8", "#a78bfa", "#64748b"],
+  },
+  {
+    key: "sunset",
+    label: "선셋",
+    description: "따뜻한 오렌지·핑크 조합",
+    colors: ["#ffe66d", "#ffb45c", "#ff7b72", "#f472b6", "#c084fc", "#8f7a72"],
+  },
+  {
+    key: "citrus",
+    label: "시트러스",
+    description: "상쾌한 옐로·그린 조합",
+    colors: ["#f9f871", "#d4f268", "#9be564", "#5dd39e", "#41b3a3", "#52796f"],
+  },
+  {
+    key: "berry",
+    label: "베리",
+    description: "선명한 레드·바이올렛 조합",
+    colors: ["#ff5c8a", "#ff8fab", "#e879f9", "#a78bfa", "#7c83fd", "#6b5b73"],
+  },
+  {
+    key: "mono",
+    label: "모노",
+    description: "절제된 화이트·그레이 조합",
+    colors: ["#f5f7f2", "#d5d9d1", "#aeb5aa", "#858e81", "#60695d", "#3d443a"],
+  },
 ]
 
 const items: Item[] = [
@@ -141,7 +186,13 @@ const percentFormat = new Intl.NumberFormat("ko-KR", {
   maximumFractionDigits: 1,
 })
 
-function DonutChart({ item }: { item: Item }) {
+function DonutChart({
+  item,
+  roles,
+}: {
+  item: Item
+  roles: { key: RoleKey color: string }[]
+}) {
   const radius = 82
   const circumference = 2 * Math.PI * radius
   let consumed = 0
@@ -184,6 +235,13 @@ function DonutChart({ item }: { item: Item }) {
 
 function App() {
   const [tab, setTab] = useState<Tab>("주요분야")
+  const [paletteKey, setPaletteKey] = useState<PaletteKey>("neon")
+  const palette =
+    palettes.find((item) => item.key === paletteKey) ?? palettes[0]
+  const roles = roleKeys.map((key, index) => ({
+    key,
+    color: palette.colors[index],
+  }))
   const visibleItems = useMemo(
     () => items.filter((item) => item.category === tab),
     [tab],
@@ -265,6 +323,32 @@ function App() {
           </div>
         </div>
 
+        <div className="palette-picker">
+          <div>
+            <p>COLOR VARIATIONS</p>
+            <span>차트 팔레트</span>
+          </div>
+          <div className="palette-options" aria-label="차트 색상 팔레트">
+            {palettes.map((option) => (
+              <button
+                key={option.key}
+                type="button"
+                className={paletteKey === option.key ? "active" : ""}
+                aria-pressed={paletteKey === option.key}
+                onClick={() => setPaletteKey(option.key)}
+                title={option.description}
+              >
+                <span className="palette-swatches" aria-hidden="true">
+                  {option.colors.map((color) => (
+                    <i key={color} style={{ backgroundColor: color }} />
+                  ))}
+                </span>
+                <span>{option.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
         <div className="content-grid">
           <div className="bars-panel">
             <div className="legend">
@@ -333,7 +417,7 @@ function App() {
               </div>
               <span>{numberFormat.format(selected.cases)} 사례</span>
             </div>
-            <DonutChart item={selected} />
+            <DonutChart item={selected} roles={roles} />
             <div className="role-list">
               {roles.map((role) => (
                 <div key={role.key}>

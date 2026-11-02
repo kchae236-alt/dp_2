@@ -229,6 +229,77 @@ h2 {
   color: var(--ink);
 }
 
+.palette-picker {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  background: #0a0c09;
+}
+
+.palette-picker > div:first-child {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.palette-picker p {
+  margin: 0;
+  color: #62685d;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.1em;
+}
+
+.palette-picker > div:first-child > span {
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.palette-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.palette-options button {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 10px;
+  transition: 160ms ease;
+}
+
+.palette-options button:hover {
+  color: var(--paper);
+}
+
+.palette-options button.active {
+  border-color: #59604f;
+  background: #151812;
+  color: var(--paper);
+}
+
+.palette-swatches {
+  display: flex;
+  overflow: hidden;
+  width: 42px;
+  height: 10px;
+}
+
+.palette-swatches i {
+  flex: 1;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(360px, 0.75fr);
@@ -522,6 +593,16 @@ footer p {
     border-top: 1px solid var(--line);
     border-left: 0;
   }
+
+  .palette-picker {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .palette-options {
+    justify-content: flex-start;
+  }
 }
 
 @media (max-width: 600px) {
@@ -552,6 +633,26 @@ footer p {
     align-items: stretch;
     flex-direction: column;
     gap: 24px;
+  }
+
+  .palette-picker {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .palette-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .palette-options button {
+    justify-content: center;
+    padding-inline: 6px;
+  }
+
+  .palette-swatches {
+    width: 32px;
   }
 
   .tabs button {
