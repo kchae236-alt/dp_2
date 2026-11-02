@@ -191,7 +191,7 @@ function DonutChart({
   roles,
 }: {
   item: Item
-  roles: { key: RoleKey color: string }[]
+  roles: { key: RoleKey; color: string }[]
 }) {
   const radius = 82
   const circumference = 2 * Math.PI * radius
